@@ -1,0 +1,77 @@
+This project, to conjugate Italian verbs (small surprise, that, given the history of my
+previous posting) is written in Python.
+
+It does invoke some advanced aspects of Python:
+
+> Pattern matching
+> lambda functions
+> Switch statements
+> try/except
+> range
+> zip
+> yield
+> generator functions
+> abstract class and class inheritance
+> __func__ overrides in classes
+> shelve file-database interaction
+
+Some functions I could not shoehorn in without looking more ridiculous than I
+already appear:
+
+> custom descriptors (class and function)
+> custom metaclasses
+> static methods
+> "module package" imports
+> __iter__/__next__ overrides
+> slot
+> properties
+> map(func, args)
+> comprehensions
+
+But all "did not do those" aside, we begin with how to use the files.
+
+To start, this is written using features of Python 3.x.  There are no guarantees it will
+work under 2.6 or less.
+
+5 files needed, and their uses:
+
+createdb.py
+
+Creates a shelve db file that will create a 3-element database of serialized classes.
+The classes are described in "verbdata.py" and the serialized classes are read into
+"combined.py" as self-knowing classes.
+
+verbdata.py
+
+Defines class VerbData.  This class is primarily a dictionary of dictionaries.  
+Each top-level dictionary key is a "tense" (Present, Future, etc).  The value of
+of each dictionary element is a dictionary of form/suffix for the person/count
+forms.  For example, present tense of "are" verbs:
+
+I/io      -o
+you/tu    -i
+he/lui    -a
+we/noi    -iamo
+you/voi   -ate
+theyloro  -ano
+
+There are 7 levels of these sets of 6, and 3 types of verbs ("are", "ire", "ere").
+The structure supports this and contains a "conjugate" function in the function
+name "printVerb".
+
+combined.py
+
+Opens an input file and shelve database file.  For all verbs in the input file
+the verbs will read the appropriate shelve element which reconstitutes all
+class characteristics without the need for "import verbdata".  Then the verb will be
+conjugated and printed.
+
+verbs.txt
+
+List of verbs.
+
+<dictionary>.db
+
+The dictionary you create with "createdb.py".  Used as input to "combined.py". 
+
+
